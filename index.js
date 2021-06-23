@@ -132,7 +132,7 @@ const renderCart = () => {
                     </tbody>
                 </table>
     ` +
-    `<h3>Total: ${Math.round(CART.totalPrice() * 100) / 100}</h3>` +
+    `<h3>Total: ${CART.totalPrice() || "0"}</h3>` +
     `<a href="" class="remove-cart">Remove All</a>`;
   addEventRemoveCart();
   addEventUpdate();
@@ -219,9 +219,10 @@ const CART = {
     }
   },
   totalPrice() {
-    return (total = CART.content.reduce(function (sum, item) {
+    let total = CART.content.reduce(function (sum, item) {
       return (sum += item.Price * item.quantity);
-    }, 0));
+    }, 0);
+    return Math.round(total * 100) / 100;
   },
   removeCart() {
     CART.content = [];
